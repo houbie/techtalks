@@ -1,0 +1,97 @@
+= Example Manual
+Ivo Houbrechts <ivo.houbrechts@ixor.be>
+2014-09-09
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../java]
+
+== Introduction
+
+[%step]
+* This is a user manual for an example project.
+* This project does something.
+* We just haven't decided what that is yet.
+
+== Speaker Notes
+
+Press the `*s*` key to access speaker notes.
+
+[NOTE.speaker]
+--
+You've unlocked the super secret notes area.
+Neat huh?
+--
+
+== Source Code
+
+[source,java]
+.Java code from project
+----
+include::{sourcedir}/example/StringUtils.java[tags=contains,indent=0]
+----
+
+This page was built by the following command:
+
+ $ ./gradlew asciidoctor
+
+== Source Code with callouts
+
+[source,groovy]
+.Embedded groovy code
+----
+def foo(){
+    ['a', 'b'].each{ // (1)
+        println "item is: $it" // (2)
+    }
+}
+----
+[.colist]
+<1> Isn't this realy nice?
+<2> It is nice, but it could be better if callouts where completely supported. +
+No?
+<3> Indeed
+
+== Blank screen
+
+You can press `*b*` or `*.*` to blank your current screen.
+
+Hit it again to bring it back.
+
+== Overview
+
+Press the `*esc*` key to get an overview of your slides.
+
+== Including documents from subdir
+
+.include::subdir/_b.adoc[]
+
+include::subdir/_b.adoc[]
+
+== Images
+
+[.thumb]
+image::sunset.jpg[scaledwidth=75%]
+
+== Definition list
+foo:: bar
+
+== Attributes
+
+Press the down arrow key to see the next sub-slide.
+
+=== Attributes Part 1
+.Built-in
+asciidoctor-version:: {asciidoctor-version}
+safe-mode-name:: {safe-mode-name}
+docdir:: {docdir}
+docfile:: {docfile}
+imagesdir:: {imagesdir}
+
+=== Attributes Part 2
+.Custom
+project-version:: {project-version}
+sourcedir:: {sourcedir}
+endpoint-url:: {endpoint-url}
+
+
