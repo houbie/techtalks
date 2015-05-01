@@ -69,7 +69,7 @@ asciidoctor {
 
     backends 'revealjs'
 
-    attributes 'sourcedir': project.sourceSets.main.java.srcDirs[0],
+    attributes 'sourcedir': file('src/javascript'),
             'source-highlighter': 'highlightjs',
             'imagesdir': './images',
             'toc': 'left',
@@ -86,5 +86,5 @@ asciidoctor {
     options template_dirs: [new File(templateDir, 'templates/slim').absolutePath]
 }
 
-asciidoctor.dependsOn download
+//asciidoctor.dependsOn download
 build.dependsOn asciidoctor
