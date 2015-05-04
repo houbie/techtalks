@@ -65,7 +65,6 @@ ifndef::sourcedir[:sourcedir: ../java]
 ** Server
 
 === The JQuery solution
-.http://localhost:3000/#/editable[X-editable example]
 [source,html]
 ----
 <p class="fancy editable editable-click editable-empty">Empty</p>
@@ -93,7 +92,6 @@ $('.editable').editable();
 == Angular in a hurry
 
 == MVC
-.http://localhost:3000/#/mvc[MVC example]
 [source,html]
 ----
 include::{sourcedir}/src/app/mvc/mvc.html[lines=6..8,indent=0]
@@ -107,7 +105,6 @@ include::{sourcedir}/src/app/mvc/mvc.controller.js[lines=4..10]
 * *Controller*: manages model
 
 === Classic Controller
-.http://localhost:3000/#/mvc[MVC example]
 [source,html]
 ----
 include::{sourcedir}/src/app/mvc/mvc.html[lines=11..13,indent=0]
@@ -124,7 +121,6 @@ include::{sourcedir}/src/app/mvc/mvc.controller.js[lines=12..18]
 * Directives
 
 === Data Binding
-.http://localhost:3000/#/binding[Binding example]
 [source,html]
 ----
 include::{sourcedir}/src/app/binding/binding.html[tags=binding,indent=0]
@@ -133,7 +129,6 @@ include::{sourcedir}/src/app/binding/binding.html[tags=binding,indent=0]
 * *bind / expression*: One-way data binding
 
 === Watch expressions
-.http://localhost:3000/#/watch[Watch example]
 [source,javascript]
 ----
 include::{sourcedir}/src/app/watch/watch.controller.js[lines=4..-1]
@@ -148,7 +143,6 @@ include::{sourcedir}/src/app/watch/watch.controller.js[lines=4..-1]
 ** $http
 
 === Dependency Injection
-.http://localhost:3000/#/di[DI example]
 [source,javascript]
 ----
 include::{sourcedir}/src/app/di/di.js[lines=5..-1]
@@ -160,10 +154,15 @@ include::{sourcedir}/src/app/di/di.js[lines=5..-1]
 === Directives
 [source,html]
 ----
-<div ng-repeat='item in cart.items'>
-  <span ng-bind='item.name'></span>
-  <button ng-click='cart.delete($index)'>Delete</button>
+<div ng-repeat="tem in cart.items">
+  <span ng-bind="item.name"></span>
+  <button ng-click="cart.delete($index)">Delete</button>
 </div>
+<tabset>
+  <tab ng-repeat="tab in tabs" heading="{{tab.title}}" >
+    {{tab.content}}
+  </tab>
+</tabset>
 ----
 * Implementation can get complex!
 
@@ -185,6 +184,9 @@ cart.total() - user.discountRate
 <p>{{ invoice.total | currency }}</p>
 <p>{{ invoice.date | date: 'MM/dd/yyyy' }}</p>
 <p>{{ student.score | number: 2 }}%</p>
+<p ng-repeat="p in list | exclude:'Ivo' | orderBy:'name':reverse" >
+  {{name}}
+</p>
 ----
 .JavaScript
 [source,javascript]
@@ -194,7 +196,6 @@ $filter('date')(invoice.date, 'MM/dd/yyyy');
 
 == Ajax
 === $http
-.http://localhost:3000/#/http[$http example]
 [source,javascript]
 ----
 include::{sourcedir}/src/app/http/http.controller.js[lines=6..10,indent=0]
@@ -238,7 +239,8 @@ include::{sourcedir}/e2e/main.spec.js[lines=22..28,indent=0]
 * npm
 * bower
 * grunt / *gulp*
-* gradle
+** https://github.com/Swiip/generator-gulp-angular[yeoman gulp angular generator]
+* gradle node plugin
 ** reproducible environment / builds
 * intellij
 
@@ -246,12 +248,14 @@ include::{sourcedir}/e2e/main.spec.js[lines=22..28,indent=0]
 === JavaScript
 [.thumb]
 image::JavaScript-the-good-parts.jpg[scale=10%]
-
+[%step]
 * The new bytecode
 
 === Coffeescript
 [source,coffeescript]
 ----
+getName = (person) -> person?.name
+
 times = (a = 1, b = 2) -> a * b
 
 sum = (nums...) ->
@@ -259,7 +263,11 @@ sum = (nums...) ->
   nums.forEach (n) -> result += n
   result
 
-name = person?.name
+a = $http url
+  , (data)->
+    result = data
+  , (error)->
+    log error
 ----
 * Reads better
 * Method calls not always as expected
@@ -268,20 +276,20 @@ name = person?.name
 [source,typescript]
 ----
 class Student {
-     fullname : string;
-     constructor(public firstname, public middle, public lastname) {
-         this.fullname = firstname + " " + middle + " " + lastname;
-     }
- }
+    fullname : string;
+    constructor(public firstname, public middle, public lastname) {
+        this.fullname = firstname + " " + middle + " " + lastname;
+    }
+}
 
- interface Person {
-     firstname: string;
-     lastname: string;
- }
+interface Person {
+    firstname: string;
+    lastname: string;
+}
 
- function greeter(person : Person) {
-     return "Hello, " + person.firstname + " " + person.lastname;
- }
+function greeter(person : Person) {
+    return "Hello, " + person.firstname + " " + person.lastname;
+}
 ----
 
 * Open sourced by Microsoft, backed by Google
@@ -305,9 +313,14 @@ class Student {
 ** JSX: JavaScript with embedded html
 * Data flow
 ** Better performance
-** Interactions: verbose code
 ** Re-render all
 ** Virtual DOM (concept from Doom3 game engine)
+
+=== React (cont.)
+[%step]
+* Interactions
+** Verbose code
+** Add behavior to component in declarative way?
 * https://facebook.github.io/react/index.html[React on github]
 
 == Conclusions
