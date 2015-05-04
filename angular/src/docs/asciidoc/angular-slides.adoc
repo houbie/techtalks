@@ -65,12 +65,20 @@ ifndef::sourcedir[:sourcedir: ../java]
 ** Server
 
 === The JQuery solution
-<div class="field inline editable" data-required="true">Ivo<div>
-$('.editable').editable()
-->show real example of editable
+.http://localhost:3000/#/editable[X-editable example]
+[source,html]
+----
+<p class="fancy editable editable-click editable-empty">Empty</p>
+----
+[source,javascript]
+----
+//on document ready
+$('.editable').editable();
+----
 
 * Abusing style class
-* Lots of unrelated event handlers
+* Lots of event handlers attached to DOM
+** Hard to debug
 * Re-apply after ajax
 
 == Single Page Applications
@@ -81,7 +89,34 @@ $('.editable').editable()
 ** rendering views by manipulating the DOM
 ** change the URL
 
+
 == Angular in a hurry
+
+== MVC
+.http://localhost:3000/#/mvc[MVC example]
+[source,html]
+----
+include::{sourcedir}/src/app/mvc/mvc.html[lines=6..8,indent=0]
+----
+[source,javascript]
+----
+include::{sourcedir}/src/app/mvc/mvc.controller.js[lines=4..10]
+----
+* *Model*: objects managed by controller
+* *View*: html template
+* *Controller*: manages model
+
+=== Classic Controller
+.http://localhost:3000/#/mvc[MVC example]
+[source,html]
+----
+include::{sourcedir}/src/app/mvc/mvc.html[lines=11..13,indent=0]
+----
+[source,javascript]
+----
+include::{sourcedir}/src/app/mvc/mvc.controller.js[lines=12..18]
+----
+* $scope: container for model objects and functions
 
 == DDD
 * Data Binding
@@ -89,11 +124,200 @@ $('.editable').editable()
 * Directives
 
 === Data Binding
-. link
+.http://localhost:3000/#/binding[Binding example]
+[source,html]
+----
+include::{sourcedir}/src/app/binding/binding.html[tags=binding,indent=0]
+----
+* *model*: Two-way data binding
+* *bind / expression*: One-way data binding
+
+=== Watch expressions
+.http://localhost:3000/#/watch[Watch example]
 [source,javascript]
 ----
-include::{sourcedir}/01_dataBinding.html[tags=dataBinding,indent=0]
+include::{sourcedir}/src/app/watch/watch.controller.js[lines=4..-1]
 ----
-[.colist]
-<1> One-way data binding
-<2> Two-way data binding
+
+=== Change detection
+* Digest loop
+* Performance
+* Notify angular about changes out of its control
+** $scope.$apply()
+** $timeout
+** $http
+
+=== Dependency Injection
+.http://localhost:3000/#/di[DI example]
+[source,javascript]
+----
+include::{sourcedir}/src/app/di/di.js[lines=5..-1]
+----
+* Explicit injection
+* Implicit injection based on argument names
+** ng-annotate
+
+=== Directives
+[source,html]
+----
+<div ng-repeat='item in cart.items'>
+  <span ng-bind='item.name'></span>
+  <button ng-click='cart.delete($index)'>Delete</button>
+</div>
+----
+* Implementation can get complex!
+
+== Expressions
+[source,javascript]
+----
+person.male ? 'Male' : 'Female'
+shoppingCart.total()
+cart.total() - user.discountRate
+----
+* {{ The stuff inside your markup }}
+* '_ng-bind =_' and inside directives
+* Evaluated against $scope
+
+== Filters
+.HTML
+[source,html]
+----
+<p>{{ invoice.total | currency }}</p>
+<p>{{ invoice.date | date: 'MM/dd/yyyy' }}</p>
+<p>{{ student.score | number: 2 }}%</p>
+----
+.JavaScript
+[source,javascript]
+----
+$filter('date')(invoice.date, 'MM/dd/yyyy');
+----
+
+== Ajax
+=== $http
+.http://localhost:3000/#/http[$http example]
+[source,javascript]
+----
+include::{sourcedir}/src/app/http/http.controller.js[lines=6..10,indent=0]
+----
+* Returns promise
+
+=== $resource
+[source,javascript]
+----
+var User = $resource('/user/:id', {id:'@id'});
+$scope.user= User.get({id:123});
+// ...
+user.name= 'Ivo';
+user.$save();
+----
+* Looks like synchronous call
+** Returns empty object
+
+== Testing
+=== Unit tests
+[source,javascript]
+----
+include::{sourcedir}/src/app/main/main.controller.spec.js[lines=3..-1,indent=0]
+----
+
+=== Functional tests
+.Page object
+[source,javascript]
+----
+include::{sourcedir}/e2e/main.po.js[lines=8..11,indent=0]
+----
+.Interactions
+[source,javascript]
+----
+include::{sourcedir}/e2e/main.spec.js[lines=22..28,indent=0]
+----
+
+== Tools
+[%step]
+* node
+* npm
+* bower
+* grunt / *gulp*
+* gradle
+** reproducible environment / builds
+* intellij
+
+== Languages
+=== JavaScript
+[.thumb]
+image::JavaScript-the-good-parts.jpg[scale=10%]
+
+* The new bytecode
+
+=== Coffeescript
+[source,coffeescript]
+----
+times = (a = 1, b = 2) -> a * b
+
+sum = (nums...) ->
+  result = 0
+  nums.forEach (n) -> result += n
+  result
+
+name = person?.name
+----
+* Reads better
+* Method calls not always as expected
+
+=== Typescript
+[source,typescript]
+----
+class Student {
+     fullname : string;
+     constructor(public firstname, public middle, public lastname) {
+         this.fullname = firstname + " " + middle + " " + lastname;
+     }
+ }
+
+ interface Person {
+     firstname: string;
+     lastname: string;
+ }
+
+ function greeter(person : Person) {
+     return "Hello, " + person.firstname + " " + person.lastname;
+ }
+----
+
+* Open sourced by Microsoft, backed by Google
+* Main language in Angular 2
+
+== Angular 2
+[%step]
+* Mobile First
+* Loosely Couple Modules
+** ES6 modules
+** Every module should be replaceable
+* Simplicity / MetaData
+** Annotations
+* Shadow DOM
+* Better change detection
+* https://angular.io/docs/js/latest/quickstart.html[angular.io]
+
+== Competition: React
+[%step]
+* Only V, maybe C of MVC
+** JSX: JavaScript with embedded html
+* Data flow
+** Better performance
+** Interactions: verbose code
+** Re-render all
+** Virtual DOM (concept from Doom3 game engine)
+* https://facebook.github.io/react/index.html[React on github]
+
+== Conclusions
+[%step]
+* Steep learning curve
+* Lots of components and examples
+* Lacks namespaces
+* Best framework yet _for me_
+* Angular 2: back to start
+* Google's commitment (cfr GWT, Dart)?
+* React?
+
+== ?

@@ -1,0 +1,16 @@
+<div class="container">
+
+  <div ng-include="'app/components/navbar/navbar.html'"></div>
+
+  <h2>Preferred</h2>
+  <p ng-controller="MvcCtrl as ctrl">
+    <i>{{ctrl.counter}}</i><button ng-click="ctrl.increment()">Increment</button>
+  </p>
+
+  <h2>Classic</h2>
+  <p ng-controller="MvcCtrlClassic">
+    <i>{{counter}}</i><button ng-click="increment()">Increment</button>
+  </p>
+
+
+</div>

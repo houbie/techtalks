@@ -2,10 +2,13 @@
 
   <div ng-include="'app/components/navbar/navbar.html'"></div>
 
+  <!--tag::binding[]-->
   <p>
-    <h3>{{name}}</h3>
-    <input ng-model="name" ><br>
-    <input ng-model="name" ><br>
-
+    Input 1: <input ng-model="greeting"><br>
+    Input 2: <input ng-model="greeting"><br>
+    Greeting 1: <i>{{greeting}}</i><br>
+    Greeting 2: <i ng-bind="greeting"></i>
   </p>
+  <!--end::binding[]-->
+
 </div>
