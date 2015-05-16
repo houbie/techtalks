@@ -1,0 +1,662 @@
+= The quest for the smart java compiler
+Ivo Houbrechts <ivo.houbrechts@ixor.be>
+2015-05-14
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../java]
+
+== Why it matters
+[quote, "'Uncle' Bob Martin"]
+The ratio of time spent reading (code) versus writing is well over 10 to 1 ...
+(therefore) making it easy to read makes it easier to write.
+
+[.thumb]
+image::clean-code.jpg[scaledwidth=75%]
+
+== Readable code
+1. Skills
+* structure, naming ...
+2. Programming language
+
+== Perfect code example
+[blackRectangle]#empty code block#
+
+== Java (language)
+* Long tradition
+* Backward compatibility
+* Gradual improvements
+** Java Beans
+** Iteration
+** Generics
+** Lambdas
+
+== Improve Java
+* Restrictions:
+** Backward compatibility
+** Not Yet Another Language to learn
+** Static typing?
+
+== The low hanging fruit
+
+== Semicolons
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=semicolon,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=semicolon,indent=0]
+----
+
+== String interpolation
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=stringInterpolation,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=stringInterpolation,indent=0]
+----
+
+=== Character escaping
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=stringEscapes,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=stringEscapes,indent=0]
+----
+
+=== Multiline strings
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=stringMultiline,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=stringMultiline,indent=0]
+----
+
+
+== Null-safe navigation
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=nullsafe,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=nullsafe,indent=0]
+----
+
+
+== Map and list literals
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=literal,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=literal,indent=0]
+----
+
+== Default values (Elvis operator)
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=default,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=default,indent=0]
+----
+
+== Default arguments
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=defaultArguments,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=defaultArguments,indent=0]
+----
+
+== Named arguments
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=namedArguments,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=namedArguments,indent=0]
+----
+
+== Equals operator
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=equals,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=equals,indent=0]
+----
+
+=== Simplified truth
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=truth,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=truth,indent=0]
+----
+
+=== Spread operator
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=spread,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=spread,indent=0]
+----
+
+== Regular expressions
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=regexp,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=regexp,indent=0]
+----
+
+== Switch statement
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=switch,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=switch,indent=0]
+----
+
+
+
+== Missing concepts
+
+== Properties
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/Message.java[tags=properties,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/Message.groovy[tags=properties,indent=0]
+----
+
+== Properties: override accessors
+[source,groovy]
+----
+include::{sourcedir}/betterjavac/groovy/Message.groovy[tags=propertiesOverride,indent=0]
+----
+
+== Property access
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=properties,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=properties,indent=0]
+----
+
+== Range
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=range,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=range,indent=0]
+----
+
+=== Ranges: use
+[source,groovy]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=rangeUses,indent=0]
+----
+
+== Operator overloading
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=operator1,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=operator1,indent=0]
+----
+
+=== Operator overloading
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=operator2,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=operator2,indent=0]
+----
+
+=== Operators
+[small, cols=".^,.<,.^,.<", options="header"]
+|===
+| Operator  | Method        | Operator      | Method
+| +         | a.plus(b)     | a[b]          | a.getAt(b)
+| -         | a.minus(b)    | a[b] = c      | a.putAt(b, c)
+| *         | a.multiply(b) | <<            | a.leftShift(b)
+| /         | a.div(b)      | >>            | a.rightShift(b)
+| %         | a.mod(b)      | ++            | a.next()
+| **        | a.power(b)    | --            | a.previous()
+|  \|       | a.or(b)       | +a            | a.positive()
+| &        | a.and(b)      | -a            | a.negative()
+| ^         | a.xor(b)      | ~a            | a.bitwiseNegative()
+|===
+
+== Type inference
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=inference,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=inference,indent=0]
+----
+
+== Multiple inheritance
+[source,java]
+----
+include::{sourcedir}/betterjavac/java/Person.java[tags=traits,indent=0]
+----
+
+http://blog.cleancoder.com/uncle-bob/2015/01/08/InterfaceConsideredHarmful.html['Interface' Considered Harmful]
+
+=== Traits
+[source,groovy]
+----
+include::{sourcedir}/betterjavac/groovy/Observable.groovy[tags=traits,indent=0]
+
+include::{sourcedir}/betterjavac/groovy/Person.groovy[tags=traits,indent=0]
+----
+
+== Compiler plugins
+
+=== Logging
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/MailService.java[tags=logging,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/MailService.groovy[tags=logging,indent=0]
+----
+
+=== Lazy
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/MailService.java[tags=lazy,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/MailService.groovy[tags=lazy,indent=0]
+----
+
+=== And more...
+[%step]
+* ToString
+* EqualsAndHashCode
+* Canonical
+* TupleConstructor
+* InheritConstructors
+* Immutable
+* Sortable
+* AutoClone
+
+=== Custom compiler plugins
+[source,groovy]
+----
+@TypeChecked(extensions = 'SQLExtension.groovy')
+findAthletes(Sql sql) {
+    sql.eachRow('select * frm Athlete') { row -> println row }
+}
+----
+
+----
+Sql.groovy: 7: [Static type checking] - SQL query is not valid:
+net.sf.jsqlparser.JSQLParserException
+  @ line 7, column 15.
+      sql.eachRow('select * frm Athlete') { row -> println row }
+^
+1 error
+----
+
+== Hindsights
+
+=== Checked exceptions
+* Failed experiment
+* Modern libraries use RuntimeException
+* Why not just skip compiler verification?
+
+=== Access modifiers
+[%step]
+* Interface: default public
+* Class: default package
+** (almost) not used
+* Public better default?
+
+=== Public properties (Data class)
+[source,groovy]
+----
+include::{sourcedir}/betterjavac/groovy/Address.groovy[tags=dataClass,indent=0]
+----
+
+=== Public versus private members
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/Webservice.java[tags=public,indent=0]
+...
+}
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/Webservice.groovy[tags=public,indent=0]
+...
+}
+----
+
+=== Fix / complete core java libraries
+[%step, style=no-bullet]
+* {blank}
++
+[source,java, role="fragment shrink"]
+----
+include::{sourcedir}/betterjavac/java/JavaSnippets.java[tags=fix,indent=0]
+----
+
+* {blank}
++
+[source,groovy, role="fragment grow"]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=fix,indent=0]
+----
+
+== Functional programming
+[source,groovy]
+----
+include::{sourcedir}/betterjavac/groovy/GroovySnippets.groovy[tags=functional,indent=0]
+----
+
+== When will this be available?
+[%step]
+* Now!
+[%step]
+** Groovy
+** Static and/or dynamic (optionally typed)
+** Java 6+
+
+== Cost (static compiled)
+[%step]
+* New language to learn
+[%step]
+** Easier then generics icon:check[role=green]
+** Learn functional programming anyway icon:check[role=green]
+* Performance
+[%step]
+** (Virtually) same as plain Java icon:check[role=green]
+* Debugging, stack traces
+[%step]
+** Comparable with lambdas icon:check[role=green]
+* Java client
+[%step]
+** No difference icon:check[role=green]
+
+=== Cost (cont.)
+[%step]
+* Extra line code
+[%step]
+** `@CompileStatic`
+* Extra jar dependency
+[%step]
+** groovy-all.jar: 6MB
+* Refactoring
+[%step]
+** OK when IDE is as smart as compiler
+** Intellij IDEA icon:check[role=green]
+
+
+*difference with lambdas
+*tooling maven gradle
+
+
+== Profit
+
+=== Java class
+image::UserJava1.png[]
+=== Java class (cont.)
+image::User1.png[]
+
+=== Groovy class
+image::User2.png[]
+
+Full screen on 15" laptop
+
+== Dynamic Groovy
+
+=== XML, JSON
+[source,groovy]
+----
+def builder = new MarkupBuilder(writer)
+builder.order {
+    for (item in ['TV', 'HIFI']) {
+        'order-item' {
+            product(item)
+            quantity(2)
+        }
+    }
+}
+----
+
+[source,groovy]
+----
+def order = new JsonSlurper().parseText(jsonString).order
+order.'order-items'.findAll {it.quantity > 1} *.product
+----
+
+=== Hibernate criteria queries
+[source,groovy]
+----
+def c = Account.createCriteria()
+def results = c {
+    between("balance", 500, 1000)
+    eq("branch", "London")
+    or {
+        like("holderFirstName", "Fred%")
+        like("holderFirstName", "Barney%")
+    }
+    maxResults(10)
+    order("holderLastName", "desc")
+}
+----
+
+=== Testing
+=== Power asserts
+[source,groovy]
+----
+assert users[1]?.address?.city == 'Kasterlee'
+----
+
+----
+users[1].address.city == 'Kasterlee'
+|    |    |        |    |
+|    |    |        |    false
+|    |    |        |    6 differences (33% similarity)
+|    |    |        |    (Mech)e(-)le(n)
+|    |    |        |    (Kast)e(r)le(e)
+|    |    |        Mechelen
+|    |    Address@2a798d51
+|    User(Wim)
+[User(Ivo), User(Wim)]
+----
+
+=== Spock
+[source,groovy]
+----
+include::{sourcedir}/../../test/groovy/betterjavac/groovy/SpockExampleSpec.groovy[tags=spockData,indent=0]
+----
+image::spockTestResult.png[]
+
+== Conclusion
+[%step]
+* Groovy brings Java on par with
+swift, dart, javascript
+
+Groovy helped me to keep my code manageable.
+
+What do you think?
