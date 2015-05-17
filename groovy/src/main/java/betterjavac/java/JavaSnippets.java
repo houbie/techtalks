@@ -97,7 +97,7 @@ public class JavaSnippets {
         //tag::equals[]
         if ("TOP".equals(type)) {}
 
-        if ((lhs != null && lhs.equals(rhs)) || (lhs == null & rhs == null)) {}
+        if (!Objects.equals(lhs , rhs)) {}
         //end::equals[]
 
         //tag::truth[]
@@ -186,7 +186,7 @@ public class JavaSnippets {
                 createDocumentReader();
 
         if (object instanceof User){
-            user.getFirstName(); //requires typecast pre java 8
+            ((User)user).getFirstName(); // no cast necessary in java 8
         }
         //end::inference[]
 

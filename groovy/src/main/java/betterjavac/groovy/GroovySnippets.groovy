@@ -58,7 +58,7 @@ class GroovySnippets {
         //end::nullsafe[]
 
         //tag::default[]
-        String s = user.userName ?: "default"
+        String s = user?.userName ?: "default"
         //end::default[]
 
         //tag::literal[]
@@ -80,7 +80,7 @@ class GroovySnippets {
         //null-safe equals operator
         if (type == "TOP") {}
 
-        if (lhs == rhs) {}
+        if (lhs != rhs) {}
 
         //identity, null-safe
         if (lhs.is(rhs)) {}
