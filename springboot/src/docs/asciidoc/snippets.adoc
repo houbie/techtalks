@@ -1,0 +1,74 @@
+= Single Page Applications with AngularJS
+Ivo Houbrechts <ivo.houbrechts@ixor.be>
+2015-05-04
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../java]
+
+== Step
+[%step]
+* A
+* B
+
+[NOTE.speaker]
+--
+* Speaker notes (push 's')
+--
+
+== Thumbs
+[no-bullets]
+* JSF, wicket...
+* icon:thumbs-o-up[] Good
+* icon:thumbs-o-down[] Bad
+
+== Source Code
+
+[source,java]
+.Java code from project
+----
+include::{sourcedir}/example/StringUtils.java[tags=contains,indent=0]
+----
+
+This page was built by the following command:
+
+ $ ./gradlew asciidoctor
+
+== Source Code with callouts
+
+[source,groovy]
+.Embedded groovy code
+----
+def foo(){
+    ['a', 'b'].each{ // (1)
+        println "item is: $it" // (2)
+    }
+}
+----
+[.colist]
+<1> Isn't this really nice?
+<2> It is nice, but it could be better if callouts where completely supported. +
+No?
+<3> Indeed
+
+== Images
+[.thumb]
+image::sunset.jpg[scaledwidth=75%]
+
+== Definition list
+foo:: bar
+
+== Attributes
+=== Attributes Part 1
+.Built-in
+asciidoctor-version:: {asciidoctor-version}
+safe-mode-name:: {safe-mode-name}
+docdir:: {docdir}
+docfile:: {docfile}
+imagesdir:: {imagesdir}
+
+=== Attributes Part 2
+.Custom
+project-version:: {project-version}
+sourcedir:: {sourcedir}
+endpoint-url:: {endpoint-url}

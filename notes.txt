@@ -1,0 +1,1 @@
+spring init --build gradle -g be.ixor.tecktalks --package-name be.ixor.techtalks.springboot -l groovy -d=web,jpa,h2,actuator boot-demo

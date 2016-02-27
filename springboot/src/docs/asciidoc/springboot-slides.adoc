@@ -1,0 +1,14 @@
+= Spring Boot
+Ivo Houbrechts <ivo.houbrechts@ixor.be>
+2015-05-04
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../java]
+
+image::spring-boot-logo.png[scaledwidth=75%]
+
+== Agenda
+* CLI
+
+== ?
