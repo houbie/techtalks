@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO</title>
+    <script src="webjars/babel-standalone/1.0.0/babel.min.js"></script>
+    <script src="webjars/react/0.14.7/dist/react-with-addons.js"></script>
+    <script src="webjars/react-dom/0.14.7/dist/react-dom.js"></script>
+    <script src="webjars/superagent/1.5.0/superagent.js"></script>
+    <!--<script src="http://localhost:8080/webjars/babel-standalone/1.0.0/babel.min.js"></script>-->
+    <!--<script src="http://localhost:8080/webjars/react/0.14.7/dist/react-with-addons.min.js"></script>-->
+    <!--<script src="http://localhost:8080/webjars/react-dom/0.14.7/dist/react-dom.min.js"></script>-->
+    <!--<script src="http://localhost:8080/webjars/superagent/1.5.0/superagent.js"></script>-->
+
+    <style type="text/css">
+        .app {
+            width: 300px;
+            padding: 15px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        li:hover {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+
+<script type="text/jsx">
+    var TodoList = React.createClass({
+
+        propTypes: {
+            items: React.PropTypes.array,
+            onComplete: React.PropTypes.func
+        },
+
+        complete(item){
+            console.log('oncomplete');
+            if (this.props.onComplete) {
+                this.props.onComplete(item);
+            }
+        },
+
+        render: function () {
+            var self = this;
+            var createItem = function (item, index) {
+                var completeFunction = function () {
+                    self.complete(item);
+                };
+                var itemStyle = item.done ? {textDecoration: 'line-through'} : {};
+                return <li key={index} onClick={completeFunction} style={itemStyle}>{item.text}</li>;
+            };
+            return <ul>{this.props.items.map(createItem)}</ul>;
+        }
+    });
+
+
+    var TodoApp = React.createClass({
+        getInitialState: function () {
+            return {items: [], text: ''};
+        },
+
+        componentDidMount: function () {
+            superagent.get('/todo')
+                    .set('Accept', 'application/json')
+                    .end(function (err, res) {
+                        this.setState({items: res.body._embedded.todo});
+                    }.bind(this));
+        },
+
+        onChange: function (e) {
+            this.setState({text: e.target.value});
+        },
+
+        handleSubmit: function (e) {
+            e.preventDefault();
+            superagent.post('/todo')
+                    .set('Accept', 'application/json')
+                    .send({text: this.state.text})
+                    .end(function (err, res) {
+                        this.setState({items: this.state.items.concat(res.body), text: ''});
+                    }.bind(this));
+        },
+
+        completeItem(item){
+            console.log('completeItem');
+            item.done = !item.done;
+            superagent.put(item._links.self.href)
+                    .send({text: item.text, done: item.done})
+                    .set('Accept', 'application/json').end(function (err, res) {
+                console.log('item saved', res.body)
+            });
+            this.setState({items: this.state.items});
+        },
+        render: function () {
+            return (
+                    <div className="app">
+                        <h3>TODO</h3>
+                        <TodoList items={this.state.items} onComplete={this.completeItem}/>
+                        <form onSubmit={this.handleSubmit}>
+                            <input onChange={this.onChange} value={this.state.text}/>
+                            <button>{'Add #' + (this.state.items.length + 1)}</button>
+                        </form>
+                    </div>
+            );
+        }
+    });
+
+    ReactDOM.render(<TodoApp />, document.getElementById('container'));
+
+</script>
+
+<script type="application/javascript">
+    (function () {
+        var jsx = document.querySelector('script[type="text/jsx"]');
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.id = 'testing';
+        script.text = Babel.transform(jsx.textContent, {presets: ['react', 'stage-3']}).code;
+        document.body.appendChild(script);
+    })();
+</script>
+
+</body>
+</html>
