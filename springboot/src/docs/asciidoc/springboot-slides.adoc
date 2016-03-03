@@ -1,14 +1,205 @@
 = Spring Boot
 Ivo Houbrechts <ivo.houbrechts@ixor.be>
-2015-05-04
+2016-03-21
 :revnumber: {project-version}
 :example-caption!:
 ifndef::imagesdir[:imagesdir: images]
-ifndef::sourcedir[:sourcedir: ../java]
+ifndef::sourcedir[:sourcedir: ../main]
 
 image::spring-boot-logo.png[scaledwidth=75%]
 
 == Agenda
-* CLI
+* About Springframework
+* Spring Boot
+** CLI demo
+** Features
+* Related frameworks
+
+== About Spring Framework
+* Dependency Injection
+* AOP
+** Declarative transaction management
+* Integration
+** JPA
+** Security
+** ...
+
+== Spring Boot Promises
+* Kick starting development
+* Opinionated but get out of the way
+* Non-functional features
+* No code generation nor XML required
+* Micro service framework
+
+== CLI
+* Installation: SDKMan ->url
+* Run/package Groovy scripts
+* Initialize project
+
+== Build support
+* Maven / Gradle
+* Dependency Management improvements
+** Maven BOM
+** Optional dependencies
+* Packaging: fat war/jar
+* Development server
+
+=== Gradle Example (1)
+[source,groovy]
+----
+buildscript {
+  ext {
+    springBootVersion = '1.3.3.RELEASE'
+  }
+  dependencies {
+    classpath "o.s.b:spring-boot-gradle-plugin:${springBootVersion}"
+  }
+}
+
+apply plugin: 'spring-boot'
+----
+
+=== Gradle Example (2)
+[source,groovy]
+----
+dependencies {
+  compile 'o.s.boot:spring-boot-starter-data-jpa'
+  compile 'o.s.boot:spring-boot-starter-web'
+
+  runtime 'com.h2database:h2'
+  runtime 'org.liquibase:liquibase-core:3.3.2'
+
+  testCompile 'o.s.boot:spring-boot-starter-test'
+  ...
+}
+----
+
+== Auto-configuration
+* Spring beans
+** Auto-creation
+** Auto-wiring
+* Based on rules
+** Bean exists?
+** Class exists?
+** ...
+
+== Starter POM
+* Predefined (optional) dependencies
+* Auto-configuration classes
+* 40+ starters -> link
+** Great tutorials-> link
+
+=== Starter Example: Security
+[source,groovy]
+----
+  compile 'o.s.boot:spring-boot-starter-security'
+----
+
+[source,groovy]
+----
+http
+  .authorizeRequests()
+      .antMatchers("/", "/home").permitAll()
+      .anyRequest().authenticated()
+      .and()
+  .formLogin()
+      .loginPage("/login")
+      .permitAll()
+      .and()
+  .logout()
+      .permitAll();
+----
+
+== Configuration
+[source,groovy]
+.Spring bean
+----
+@Service
+@ConfigurationProperties(prefix = "parkingStateService")
+class ParkingStateServiceImpl {
+    int cacheTimeToLiveMillis = 60_000
+    List<Parking> parkings = []
+    ...
+}
+----
+
+[source,yml]
+.application.yml
+----
+parkingStateService:
+  cacheTimeToLiveMillis: 180000
+  parkings:
+    - name: Mechelen-Grote-Markt
+      communicatorName: vinciFlexposure
+    - name: Mechelen-Hoogstraat
+      communicatorName: vinciFlexposure
+----
+
+=== Configuration overrides
+* YML files
+* Properties files
+* Profile-specific files
+* System properties
+* Environment variables
+* Command line args
+
+=== Configuration example: base
+[source,yml]
+.application.yml on classpath
+----
+server:
+  port: 8080
+security:
+  require_ssl: false
+parkingStateService:
+  cacheTimeToLiveMillis: 180000
+  parkings:
+    - name: Mechelen-Grote-Markt
+      communicatorName: vinciFlexposure
+    - name: Mechelen-Hoogstraat
+      communicatorName: vinciFlexposure
+----
+
+=== Configuration example: external overrides
+[source,yml]
+.application-production.yml in /etc/my-app
+----
+security:
+  require_ssl: true
+----
+
+[source,bash]
+.environment variables
+----
+SPRING_CONFIG_LOCATION=/etc/my-app
+SPRING_PROFILES_ACTIVE=production
+
+SERVER_PORT=9090
+----
+
+== Actuator
+[source,groovy]
+----
+compile 'o.s.boot:spring-boot-starter-actuator'
+----
+
+* /info
+* /health
+* /dump
+* /metrics
+* /env
+* /beans
+* /autoconfig
+* ...
+
+
+== Deployment
+* Servlet container
+* Fat jar/war:
+** `java -jar my-app.war`
+** bash: `./my-app.war`
+*** Linux service ready
+** Tomcat / Jetty / Undertow
+
 
 == ?
