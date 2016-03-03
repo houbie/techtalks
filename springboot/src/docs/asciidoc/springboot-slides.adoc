@@ -86,8 +86,8 @@ dependencies {
 == Starter POM
 * Predefined (optional) dependencies
 * Auto-configuration classes
-* 40+ starters -> link
-** Great tutorials-> link
+* 40+ https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters[starters]
+** Great http://spring.io/guides[tutorials]
 
 === Starter Example: Security
 [source,groovy]
@@ -192,14 +192,21 @@ compile 'o.s.boot:spring-boot-starter-actuator'
 * /autoconfig
 * ...
 
-
 == Deployment
 * Servlet container
 * Fat jar/war:
 ** `java -jar my-app.war`
 ** bash: `./my-app.war`
-*** Linux service ready
+*** Linux systemd service
 ** Tomcat / Jetty / Undertow
+* Embed javascript SPA
 
+== Related Frameworks
+* https://grails.org/[Grails]
+** Groovy
+** Gorm
+** Json views
+* http://jhipster.github.io/[jHipster]
+** Angular js SPA
 
 == ?
