@@ -1,23 +1,26 @@
 buildscript {
-	ext {
-		springBootVersion = '1.3.3.RELEASE'
-	}
-	repositories {
-		jcenter()
-	}
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    ext {
+        springBootVersion = '1.3.3.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 
+        //asciidoctor dependencies
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.5'
         classpath 'org.ysb33r.gradle:vfs-gradle-plugin:1.0-beta1'
         classpath 'commons-httpclient:commons-httpclient:3.1'
         classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
-	}
+    }
 }
 
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 apply plugin: 'groovy'
+
+//asciidoctor plugins
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.jruby-gradle.base'
 apply plugin: 'org.ysb33r.vfs'
@@ -28,34 +31,48 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	jcenter()
+    jcenter()
 }
-
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-actuator'
-	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	compile 'org.springframework.boot:spring-boot-starter-data-rest'
-	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-devtools'
 
-	compile 'org.codehaus.groovy:groovy'
-
-    runtime 'com.h2database:h2'
-
-    runtime 'org.webjars.bower:react:0.12.2'
-    runtime 'org.webjars.bower:react:0.12.2'
-    runtime 'org.webjars:Rest:1.2.0'
-
+    compile 'org.codehaus.groovy:groovy'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	
-	
+
+    //asciidoctor dependencies
     gems 'rubygems:slim:2.1.0'
     gems 'rubygems:thread_safe:0.3.4'
-	
+
 }
 
+//PropertiesLauncher looks in lib/ in your application archive by default,
+// but you can add additional locations by setting an environment variable LOADER_PATH
+// or loader.path in application.properties (comma-separated list of directories or archives)
+manifest {
+    attributes 'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher'
+}
+//the PropertiesLauncher requires the ZIP layout and the mainClass to be specified
+springBoot {
+    mainClass = 'be.ixor.techtalks.springboot.DemoApplication'
+    layout = 'ZIP'
+}
+
+//put the display classes in a separate jar that can be added to the classpath
+// to demonstrate how an existing application can be extended by just adding jar's
+jar {
+    exclude '**/display/**'
+}
+task displayJar(type: Jar) {
+    from sourceSets.main.output
+    include '**/display/**'
+    baseName = 'display'
+    destinationDir = file("$libsDir/lib/")
+}
+assemble.dependsOn(displayJar)
 
 ext {
     revealjsVersion = 'master'
@@ -80,6 +97,7 @@ task download {
     }
 }
 
+//everything that follows is only asciidocotor related
 asciidoctor {
     sources {
         include '*.adoc'
