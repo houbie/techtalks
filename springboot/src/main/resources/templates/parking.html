@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Parking</title>
+</head>
+<body>
+<h1>Parking state</h1>
+<h3>Displays</h3>
+<ul>
+    <li th:each="display : ${displays}"
+        th:text="${display.getClass().getSimpleName()}">display
+    </li>
+</ul>
+<form>
+    <input type="hidden" name="parkingState" th:value="${parkingState}"/>
+    Free <input type="checkbox"
+                th:checked="${parkingState.toString() == 'FREE'}"
+                onchange="this.form.parkingState.value=this.checked? 'FREE':'FULL';this.form.submit()"/>
+</form>
+</body>
+</html>
