@@ -37,6 +37,9 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-starter-websocket'
+    compile 'org.springframework:spring-messaging'
+
     compile 'org.springframework.boot:spring-boot-devtools'
 
     compile 'org.codehaus.groovy:groovy'

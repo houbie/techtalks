@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Status Display</title>
+    <style type="text/css">
+        .FREE {
+            font: bold 200px sans-serif;
+            color: green;
+        }
+
+        .FULL {
+            font: bold 200px sans-serif;
+            color: RED;
+        }
+    </style>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/parkingStatus', function (message) {
+                    showParkingStatus(JSON.parse(message.body).status);
+                });
+            });
+        }
+        function showParkingStatus(status) {
+            console.log('received status', status);
+            var element = document.getElementById('status');
+            element.className = status;
+            element.innerHTML = status;
+        }
+    </script>
+</head>
+<body onload="connect()">
+<p id="status"></p>
+</body>
+</html>
