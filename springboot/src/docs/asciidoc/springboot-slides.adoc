@@ -32,7 +32,7 @@ image::spring-boot-logo.png[scaledwidth=75%]
 * Micro service framework
 
 == CLI
-* Installation: SDKMan ->url
+* Installation: http://sdkman.io/[SDKMan]
 * Run/package Groovy scripts
 * Initialize project
 
