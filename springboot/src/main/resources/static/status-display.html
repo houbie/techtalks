@@ -3,13 +3,30 @@
 <head>
     <title>Parking Status Display</title>
     <style type="text/css">
-        .FREE {
+        body, div {
+            background-color: black;
+            margin: 0 0;
+            padding: 7% 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        div {
+            display: table;
+        }
+
+        p {
+            display: table-cell;
+            vertical-align: middle;
             font: bold 200px sans-serif;
+            text-align: center;
+        }
+
+        .FREE {
             color: green;
         }
 
         .FULL {
-            font: bold 200px sans-serif;
             color: RED;
         }
     </style>
@@ -37,6 +54,8 @@
     </script>
 </head>
 <body onload="connect()">
-<p id="status"></p>
+<div>
+    <p id="status" class="FREE">FREE</p>
+</div>
 </body>
 </html>

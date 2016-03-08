@@ -1,5 +1,5 @@
 @RestController
-class Hello{
-	@RequestMapping('/')
-	def hello(){'Hello Ixor'}
+class Hello {
+    @RequestMapping('/')
+    def hello() { 'Hello Ixor' }
 }

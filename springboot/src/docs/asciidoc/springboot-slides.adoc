@@ -11,8 +11,9 @@ image::spring-boot-logo.png[scaledwidth=75%]
 == Agenda
 * About Springframework
 * Spring Boot
-** CLI demo
+** CLI
 ** Features
+** Demo
 * Related frameworks
 
 == About Spring Framework
@@ -25,6 +26,7 @@ image::spring-boot-logo.png[scaledwidth=75%]
 ** ...
 
 == Spring Boot Promises
+[%step]
 * Kick starting development
 * Opinionated but get out of the way
 * Non-functional features
@@ -37,6 +39,7 @@ image::spring-boot-logo.png[scaledwidth=75%]
 * Initialize project
 
 == Build support
+[%step]
 * Maven / Gradle
 * Dependency Management improvements
 ** Maven BOM
@@ -79,8 +82,8 @@ dependencies {
 ** Auto-creation
 ** Auto-wiring
 * Based on rules
-** Bean exists?
-** Class exists?
+** Bean (not) exists?
+** Class (not) available?
 ** ...
 
 == Starter POM
@@ -136,6 +139,7 @@ parkingStateService:
 ----
 
 === Configuration overrides
+[%step]
 * YML files
 * Properties files
 * Profile-specific files
@@ -193,6 +197,7 @@ compile 'o.s.boot:spring-boot-starter-actuator'
 * ...
 
 == Deployment
+[%step]
 * Servlet container
 * Fat jar/war:
 ** `java -jar my-app.war`

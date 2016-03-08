@@ -62,6 +62,7 @@ manifest {
 springBoot {
     mainClass = 'be.ixor.techtalks.springboot.DemoApplication'
     layout = 'ZIP'
+    executable = true
 }
 
 //put the display classes in a separate jar that can be added to the classpath

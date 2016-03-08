@@ -1,0 +1,47 @@
+connect via usb:
+ls /dev/tty*
+screen /dev/tty.usbmodem1411 115200
+
+login: root / chip
+
+wifi:
+nmcli device wifi list
+sudo nmcli device wifi connect 'Ivo Nexus 5x' password 'ovi_Houbie00' ifname wlan0
+
+ifconfig -> copy ip address
+
+exit screen: ctrl+a ctrl+d
+
+ssh chip@192.168.0.xxx
+
+download jdk8:
+sudo su
+mkdir /usr/jdk
+cd /usr/jdk
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-arm32-vfp-hflt.tar.gz
+gzip -d jdk-8u73-linux-arm32-vfp-hflt.tar.gz
+tar -xf jdk-8u73-linux-arm32-vfp-hflt.tar
+export PATH=/usr/jdk/jdk1.8.0_65/bin:$PATH
+
+spring boot app:
+mkdir parkingdemo
+mkdir parkingdemo/lib
+
+on local machine:
+scp build/libs/springboot-1.0.0-SNAPSHOT.jar chip@192.168.0.xxx:~/parkingdemo
+scp build/libs/lib/display-1.0.0-SNAPSHOT.jar chip@192.168.0.xxx:~/parkingdemo/lib
+
+memory usage:
+top
+free -m
+
+
+gpio pin 7:
+sudo sh -c 'echo 415 > /sys/class/gpio/export'
+sudo sh -c 'echo out > /sys/class/gpio/gpio415/direction'
+
+check:
+cat /sys/class/gpio/gpio415/direction
+
+set to 1:
+sudo sh -c 'echo 1 > /sys/class/gpio/gpio415/value'
