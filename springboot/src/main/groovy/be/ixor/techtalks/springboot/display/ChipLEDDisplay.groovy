@@ -12,7 +12,7 @@ import static be.ixor.techtalks.springboot.ParkingState.FULL
 
 @Component
 @Slf4j
-class LEDDisplay implements Display {
+class ChipLEDDisplay implements Display {
     @Override
     void setParkingState(ParkingState state) {
         println "new state for LEDDisplay: $state"

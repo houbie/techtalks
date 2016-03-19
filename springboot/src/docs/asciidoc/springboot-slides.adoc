@@ -7,7 +7,6 @@ ifndef::imagesdir[:imagesdir: images]
 ifndef::sourcedir[:sourcedir: ../main]
 
 image::spring-boot-logo.png[scaledwidth=75%]
-
 == Agenda
 * About Springframework
 * Spring Boot
@@ -34,7 +33,7 @@ image::spring-boot-logo.png[scaledwidth=75%]
 * Micro service framework
 
 == CLI
-* Installation: SDKMan ->url
+* Installation: http://www.sdkman.io[SDKMan]
 * Run/package Groovy scripts
 * Initialize project
 
@@ -100,17 +99,22 @@ dependencies {
 
 [source,groovy]
 ----
-http
-  .authorizeRequests()
-      .antMatchers("/", "/home").permitAll()
-      .anyRequest().authenticated()
-      .and()
-  .formLogin()
-      .loginPage("/login")
-      .permitAll()
-      .and()
-  .logout()
-      .permitAll();
+@EnableWebSecurity
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    protected void configure(HttpSecurity http) {
+        http
+          .authorizeRequests()
+              .antMatchers("/", "/home").permitAll()
+              .anyRequest().authenticated()
+              .and()
+          .formLogin()
+              .loginPage("/login")
+              .permitAll()
+              .and()
+          .logout()
+              .permitAll();
+   ...
 ----
 
 == Configuration
@@ -140,12 +144,15 @@ parkingStateService:
 
 === Configuration overrides
 [%step]
-* YML files
-* Properties files
+* application.yml
+* application.properties
 * Profile-specific files
+** application-dev.yml, application-uat.properties, ...
 * System properties
 * Environment variables
+** export SERVER_PORT=9090
 * Command line args
+** --SERVER_PORT 80
 
 === Configuration example: base
 [source,yml]
@@ -166,7 +173,7 @@ parkingStateService:
 
 === Configuration example: external overrides
 [source,yml]
-.application-production.yml in /etc/my-app
+.application-production.yml in /etc/parking-app
 ----
 security:
   require_ssl: true
@@ -215,3 +222,4 @@ compile 'o.s.boot:spring-boot-starter-actuator'
 ** Angular js SPA
 
 == ?
+https://github.com/houbie/techtalks/blob/master/springboot/src/docs/asciidoc/springboot-slides.adoc[Project and slides on github]
