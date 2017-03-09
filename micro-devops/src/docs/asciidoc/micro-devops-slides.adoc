@@ -1,0 +1,154 @@
+= Micro DevOps
+Ivo Houbrechts <ivo.houbrechts@ixor.be>
+2017-03-27
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../main]
+
+image::devops.png[scaledwidth=75%]
+== Agenda
+* What and Why
+* Build
+* Configuration management
+* Delivery pipeline
+* Jenkins pipeline demo
+
+== CI / CD
+* Continuous Integration
+** Integrate early, integrate often
+* Continuous Deployment
+** Automatically deploy successful build
+* Continuous Delivery
+** Every successful build is release candidate
+
+== DevOps
+* Collaboration between developers and operations
+* Rapid, frequent and reliable software delivery
+* Automation
+** Easier and cheaper
+    
+== Scalability
+* Large scale: Netflix
+** Nebula (gradle plugins)
+** Aminator (AWS AMIs)
+** Spinnaker (CD)
+** Winston (diagnostics)
+** Lemur (certificates)
+** ...
+* Small scale?
+** Feax financial asset management
+    
+[NOTE.speaker]
+--
+* show vermogensoverzicht.feax.be
+--
+
+
+== Build Tools
+* Maven
+** Version scheme not compatible with CD
+** Build only
+* Gradle
+** Task automation
+*** Build, Deploy, Issue management, Release notes, ...
+
+== Gradle deploy
+[source,groovy]
+----
+task deploy(dependsOn: executableWar) << {
+  def passphrase = console.readPassword("passphrase: ")
+  ssh.run {
+    session(host: hostIp, user: 'ivo', identity: idRsa) {
+      put from: new File(libs, war.archiveName), into: '/tmp'
+      execute("sudo mv /tmp/${war.archiveName} /usr/lib", pty: true)
+      ...
+    }
+  }
+}
+----
+
+== Gradle release notes
+
+== Configuration Management
+* Puppet
+* Chef
+* Ansible
+* Docker
+
+== Ansible
+* Install / maintain servers
+** Firewall, proxy
+** Tools
+** Certificates
+** Deployment
+* Test environments
+* Build Infrastructure
+
+== AssetArchitect ansible
+* Spring boot script
+
+== Delivery Pipelines
+* Classic CI tools
+** Configuration via UI
+* Pipeline as code
+** Easier reuse
+** Documentation
+** Customization
+** Versioning
+
+== Pipeline-as-code Tools
+* Jenkins (Groovy)
+* Bitbucket (YAML)
+* Concourse (YAML)
+* LambdaCD (Clojure, Leiningen)
+
+== AssetArchitect pipeline
+* screen shots of flow
+** create issue
+** check in code
+** slack notification
+** build stage finished on jenkins
+** artifacts in artifactory
+** fill in message to clients + start test deploy
+** copy DB + install on test -> show test server
+** resolve issue
+** receive mail
+** fill in message to clients + start prd deploy
+** generate release notes
+** close issues
+** show prd server
+* show pipeline code
+
+== Jenkins demo
+
+== Tip
+* Limit pipeline script
+** flow
+** user interaction
+** notification
+** credentials
+** SCM (git)
+
+== Tip (cont.)
+* Keep logic in build script
+** easier to test than pipeline script
+** reuse
+** long term stability
+
+== Conclusion
+* Automate
+** Fast and continuous delivery
+* Automate
+** Peace of mind
+* Automate
+** Cash in next project
+
+[NOTE.speaker]
+--
+* never forget to backup DB
+* cfg devOps to SCM: ubiquitous
+--
+    
+== ?
+https://github.com/houbie/techtalks/blob/master/micro-devops/src/docs/asciidoc/micro-devops-slides.adoc[Project and slides on github]
