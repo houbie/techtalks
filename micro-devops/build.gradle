@@ -45,6 +45,8 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.9'
 
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
+
     //asciidoctor dependencies
     gems 'rubygems:slim:2.1.0'
     gems 'rubygems:thread_safe:0.3.4'
