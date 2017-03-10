@@ -1,0 +1,46 @@
+class Version {
+    int major
+    int minor
+    int bugfix
+    int build
+    boolean snapshot
+    boolean release
+
+    Version() {}
+
+    Version(String versionString) {
+        def parts = versionString.split(/[.|-]/)
+        major = Integer.valueOf(parts[0])
+        if (parts.size() > 1) {
+            minor = parts[1].toInteger()
+        }
+        if (parts.size() > 2) {
+            bugfix = parts[2].toInteger()
+        }
+        if (parts.size() > 3) {
+            switch (parts[3]) {
+                case 'SNAPSHOT':
+                    snapshot = true
+                    break
+                case 'RELEASE':
+                    snapshot = true
+                    break
+                default:
+                    build = parts[3].toInteger()
+            }
+        }
+    }
+
+    String toString() {
+        "$major.$minor.$bugfix${build ? '-' + build : ''}${snapshot ? '-SNAPSHOT' : ''}${release ? '.RELEASE' : ''}"
+    }
+}
+
+def version = new Version(file('version').text.trim())
+version.release = project.hasProperty('RELEASE')
+def buildNumber = System.env.BUILD_NUMBER
+if (buildNumber && !version.release) {
+    version.build = buildNumber.toInteger()
+}
+version.snapshot = !version.build && !version.release
+project.version = version
