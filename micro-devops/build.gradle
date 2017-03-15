@@ -16,24 +16,15 @@ buildscript {
 }
 
 apply plugin: 'groovy'
+apply from: 'version.gradle'
 
 //asciidoctor plugins
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.jruby-gradle.base'
 apply plugin: 'org.ysb33r.vfs'
 
-def mainVersion = file('version').text.trim()
-def buildNumber = System.env.BUILD_NUMBER
-if (buildNumber) {
-    ext.projectVersion = "$mainVersion.$buildNumber"
-    file('build-version').text = ext.projectVersion
-} else {
-    ext.projectVersion = "$mainVersion-SNAPSHOT"
-}
-println "project version: $projectVersion"
-
 group = 'be.ixor.techtalks'
-version = projectVersion
+println version
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -53,6 +44,8 @@ repositories {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.9'
+
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
 
     //asciidoctor dependencies
     gems 'rubygems:slim:2.1.0'
