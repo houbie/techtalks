@@ -7,12 +7,13 @@ ifndef::imagesdir[:imagesdir: images]
 ifndef::sourcedir[:sourcedir: ../main]
 
 image::devops.png[scaledwidth=75%]
+
 == Agenda
 * What and Why
 * Build
-* Configuration management
-* Delivery pipeline
-* Jenkins pipeline demo
+* Configuration Management
+* Delivery Pipeline
+* Jenkins Pipeline Demo
 
 == CI / CD
 * Continuous Integration
@@ -43,7 +44,6 @@ image::devops.png[scaledwidth=75%]
 --
 * show vermogensoverzicht.feax.be
 --
-
 
 == Build Tools
 * Maven
@@ -104,21 +104,47 @@ task deploy(dependsOn: executableWar) << {
 * LambdaCD (Clojure, Leiningen)
 
 == AssetArchitect pipeline
-* screen shots of flow
-** create issue
-** check in code
-** slack notification
-** build stage finished on jenkins
-** artifacts in artifactory
-** fill in message to clients + start test deploy
-** copy DB + install on test -> show test server
-** resolve issue
-** receive mail
-** fill in message to clients + start prd deploy
-** generate release notes
-** close issues
-** show prd server
+
+=== Create Issue
+image::create-issue.png[scaledwidth=75%]
+=== Push commit
+image::commit.png[scaledwidth=75%]
+=== Gradle build
+image::gradle-build.png[scaledwidth=75%]
+=== Slack message
+image::slack-notification.png[scaledwidth=75%]
+=== Artifacts uploaded
+image::artifactory.png[scaledwidth=75%]
+=== Pipeline paused
+image::gradle-build-finished.png[scaledwidth=75%]
+=== Waiting for input
+image::test-deploy-input.png[scaledwidth=75%]
+=== Confirm test deploy
+image::test-deploy-proceed.png[scaledwidth=75%]
+=== Copy production data
+image::sync-test-db.png[scaledwidth=75%]
+=== Install application
+image::install-app.png[scaledwidth=75%]
+=== Mail to customer
+image::test-deploy-mail.png[scaledwidth=75%]
+=== Verify issue
+image::verify-issue.png[scaledwidth=75%]
+=== Resolve issue
+image::resolve-issue.png[scaledwidth=75%]
+=== Promote build
+image::prod-deploy-input.png[scaledwidth=75%]
+=== Pipeline end
+image::build-success.png[scaledwidth=75%]
+=== Mail to customer
+image::prod-deploy-mail.png[scaledwidth=75%]
+=== Release notes
+image::release-notes.png[scaledwidth=75%]
+
+[NOTE.speaker]
+--
+* show prd server
 * show pipeline code
+--
 
 == Jenkins demo
 
@@ -151,4 +177,4 @@ task deploy(dependsOn: executableWar) << {
 --
     
 == ?
-https://github.com/houbie/techtalks/blob/master/micro-devops/src/docs/asciidoc/micro-devops-slides.adoc[Project and slides on github]
+https://github.com/houbie/techtalks/blob/master/micro-devops/src/docs/asciidoc/micro-devops-slides.adoc[Project and slides on github.com/houbie/techtalks]
