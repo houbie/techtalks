@@ -47,8 +47,8 @@ image::devops.png[scaledwidth=75%]
 
 == Build Tools
 * Maven
-** Version scheme not compatible with CD
 ** Build only
+** Versioning not compatible with CD
 * Gradle
 ** Task automation
 *** Build, Deploy, Issue management, Release notes, ...
@@ -69,6 +69,18 @@ task deploy(dependsOn: executableWar) << {
 ----
 
 == Gradle release notes
+[source,groovy]
+----
+HttpURLConnection connection = url.openConnection()
+
+def resolved = new JsonSlurper()
+    .parseText(connection.content.text).issues
+
+resolved.each {issue ->
+    addToReleaseNotes(issue)
+    closeIssue(issue)
+}
+----
 
 == Configuration Management
 * Puppet
@@ -85,8 +97,25 @@ task deploy(dependsOn: executableWar) << {
 * Test environments
 * Build Infrastructure
 
-== AssetArchitect ansible
-* Spring boot script
+== Ansible spring boot
+[source,yml]
+----
+    - name: Download the war
+      get_url:
+        url: "{{ maven_repo }}/..."
+        ...
+    - name: Download config
+      get_url:
+        url: "{{ maven_repo }}/..."
+        ...
+    - name: Make sure the service is enabled
+      service:
+        name: "{{ item.key }}"
+        state: started
+        enabled: yes
+      with_dict: "{{ springbootapps | default({}) }}"
+    ...
+----
 
 == Delivery Pipelines
 * Classic CI tools
@@ -103,6 +132,12 @@ task deploy(dependsOn: executableWar) << {
 * Concourse (YAML)
 * LambdaCD (Clojure, Leiningen)
 
+== Jenkins demo
+[NOTE.speaker]
+--
+* show pipeline syntax
+--
+
 == AssetArchitect pipeline
 
 === Create Issue
@@ -110,22 +145,52 @@ image::create-issue.png[scaledwidth=75%]
 === Push commit
 image::commit.png[scaledwidth=75%]
 === Gradle build
+[source,groovy]
+----
+sh './gradlew clean build uploadArchives
+----
 image::gradle-build.png[scaledwidth=75%]
-=== Slack message
-image::slack-notification.png[scaledwidth=75%]
 === Artifacts uploaded
 image::artifactory.png[scaledwidth=75%]
+=== Slack message
+[source,groovy]
+----
+slackSend color: 'good', message: "Gradle build succeded" +
+         " for job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+----
+image::slack-notification.png[scaledwidth=75%]
 === Pipeline paused
+[source,groovy]
+----
+def mailMessage = input message: 'deploy on test server',
+            parameters: [text(name: 'mail message')]
+----
 image::gradle-build-finished.png[scaledwidth=75%]
 === Waiting for input
 image::test-deploy-input.png[scaledwidth=75%]
 === Confirm test deploy
 image::test-deploy-proceed.png[scaledwidth=75%]
-=== Copy production data
+=== Copy production DB
+[source,groovy]
+----
+sh "ansible-playbook sync-test-db.yaml -i hosts"
+----
 image::sync-test-db.png[scaledwidth=75%]
 === Install application
+[source,groovy]
+----
+sh "ansible-playbook assetarchitect.yaml -i hosts -l $server " +
+    "--extra-vars \"app_version=$appVersion\" --tags springboot_installwars"
+----
 image::install-app.png[scaledwidth=75%]
 === Mail to customer
+[source,groovy]
+----
+mail to: 'gert@feax.be',
+        cc: 'ivo@houbrechts.be',
+        subject: "Nieuwe testversie vermogensoverzicht",
+        body: "Versie $buildVersion staat klaar.\n $mailMessage"
+----
 image::test-deploy-mail.png[scaledwidth=75%]
 === Verify issue
 image::verify-issue.png[scaledwidth=75%]
@@ -133,20 +198,28 @@ image::verify-issue.png[scaledwidth=75%]
 image::resolve-issue.png[scaledwidth=75%]
 === Promote build
 image::prod-deploy-input.png[scaledwidth=75%]
-=== Pipeline end
-image::build-success.png[scaledwidth=75%]
 === Mail to customer
 image::prod-deploy-mail.png[scaledwidth=75%]
 === Release notes
+[source,groovy]
+----
+withCredentials([[credentialsId: 'bitbucket_pw',
+                  usernameVariable: 'BITBUCKET_USER', ...]]) {
+    sh './gradlew releaseNotes'
+}
+sh 'git add RELEASENOTES.md'
+sh "git commit -m 'BUILDER: $buildVersion release notes'"
+gitPush()
+----
 image::release-notes.png[scaledwidth=75%]
+=== Pipeline end
+image::build-success.png[scaledwidth=75%]
 
 [NOTE.speaker]
 --
 * show prd server
 * show pipeline code
 --
-
-== Jenkins demo
 
 == Tip
 * Limit pipeline script
