@@ -53,6 +53,20 @@ image::devops.png[scaledwidth=75%]
 ** Task automation
 *** Build, Deploy, Issue management, Release notes, ...
 
+== Gradle project version
+[source,groovy]
+----
+class Version {
+    int major
+    int minor
+    boolean release = System.env.RELEASE
+    boolean snapshot =  !System.env.BUILD_NUMBER
+    ...
+}
+
+version = new Version()
+----
+
 == Gradle deploy
 [source,groovy]
 ----
@@ -71,7 +85,7 @@ task deploy(dependsOn: executableWar) << {
 == Gradle release notes
 [source,groovy]
 ----
-HttpURLConnection connection = url.openConnection()
+HttpURLConnection connection = resolvedIssuesUrl.openConnection()
 
 def resolved = new JsonSlurper()
     .parseText(connection.content.text).issues
@@ -97,24 +111,34 @@ resolved.each {issue ->
 * Test environments
 * Build Infrastructure
 
-== Ansible spring boot
+== Ansible example
 [source,yml]
 ----
-    - name: Download the war
-      get_url:
-        url: "{{ maven_repo }}/..."
-        ...
-    - name: Download config
-      get_url:
-        url: "{{ maven_repo }}/..."
-        ...
-    - name: Make sure the service is enabled
-      service:
-        name: "{{ item.key }}"
-        state: started
-        enabled: yes
-      with_dict: "{{ springbootapps | default({}) }}"
+- name: Create assetarchitect user
+  user: name=assetarchitect
+- name: Install wkhtmltopdf
+  yum: name=wkhtmltopdf state=installed
+
+----
+
+== Ansible SpringBoot
+[source,yml]
+----
+- name: Download the war
+  get_url:
+    url: "{{ maven_repo }}/..."
     ...
+- name: Download config
+  get_url:
+    url: "{{ maven_repo }}/..."
+    ...
+- name: Make sure the service is enabled
+  service:
+    name: "{{ item.key }}"
+    state: started
+    enabled: yes
+  with_dict: "{{ springbootapps | default({}) }}"
+...
 ----
 
 == Delivery Pipelines
@@ -147,7 +171,7 @@ image::commit.png[scaledwidth=75%]
 === Gradle build
 [source,groovy]
 ----
-sh './gradlew clean build uploadArchives
+sh './gradlew clean build uploadArchives'
 ----
 image::gradle-build.png[scaledwidth=75%]
 === Artifacts uploaded
@@ -241,7 +265,7 @@ image::build-success.png[scaledwidth=75%]
 * Automate
 ** Peace of mind
 * Automate
-** Cash in next project
+** Cash-back in 2nd project
 
 [NOTE.speaker]
 --
